@@ -1,7 +1,8 @@
-package com.example.stackoreader
+package com.example.stackoreader.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.stackoreader.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
