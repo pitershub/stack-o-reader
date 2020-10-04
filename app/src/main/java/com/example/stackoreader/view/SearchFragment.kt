@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stackoreader.R
 import com.example.stackoreader.databinding.SearchFragmentBinding
 import com.example.stackoreader.viewmodel.SearchViewModel
@@ -15,6 +17,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private lateinit var binding: SearchFragmentBinding
+    private lateinit var resultListAdapter: ResultListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,17 +25,27 @@ class SearchFragment : Fragment() {
     ): View? {
         binding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
+        resultListAdapter = ResultListAdapter(arrayListOf())
         Timber.d("Fragment init")
 
         binding.searchButton.setOnClickListener {
             val query = binding.searchEdit.text.toString()
             viewModel.search(query)
+        }
+
+        binding.resultsList.apply {
+            layoutManager = GridLayoutManager(context, 1)
+            adapter = resultListAdapter
+        }
+
+        viewModel.getResultsList().observe(viewLifecycleOwner
+        ) { list ->
+            resultListAdapter.updateResultsList(list)
         }
     }
 
