@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stackoreader.R
 import com.example.stackoreader.data.Item
@@ -32,12 +33,15 @@ class ResultListAdapter(private val itemList: ArrayList<Item>) :
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
         holder.view.item = itemList[position]
+        holder.view.listener = this
     }
 
     override fun onClick(v: View) {
         for (item in itemList) {
             if (item.questionId == v.tag.toString().toInt()) {
-
+                val action =
+                    SearchFragmentDirections.actionSearchFragmentToDetailsFragment(item)
+                Navigation.findNavController(v).navigate(action)
             }
         }
     }

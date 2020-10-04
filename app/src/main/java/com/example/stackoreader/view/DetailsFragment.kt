@@ -1,14 +1,17 @@
 package com.example.stackoreader.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.stackoreader.R
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import com.example.stackoreader.databinding.FragmentDetailsBinding
 
 class DetailsFragment : Fragment() {
+
+    val args: DetailsFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentDetailsBinding
 
@@ -16,6 +19,8 @@ class DetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_details, container, false)
+        binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        binding.urlText.text = args.item.link
+        return binding.root
     }
 }
