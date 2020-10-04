@@ -1,6 +1,7 @@
 package com.example.stackoreader.view
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import com.example.stackoreader.data.Item
 import com.example.stackoreader.databinding.ItemQueryBinding
 
 class ResultListAdapter(private val itemList: ArrayList<Item>) :
-    RecyclerView.Adapter<ResultListAdapter.ResultViewHolder>() {
+    RecyclerView.Adapter<ResultListAdapter.ResultViewHolder>(), QueryClickListener {
 
     class ResultViewHolder(var view: ItemQueryBinding) : RecyclerView.ViewHolder(view.root)
 
@@ -31,5 +32,13 @@ class ResultListAdapter(private val itemList: ArrayList<Item>) :
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
         holder.view.item = itemList[position]
+    }
+
+    override fun onClick(v: View) {
+        for (item in itemList) {
+            if (item.questionId == v.tag.toString().toInt()) {
+
+            }
+        }
     }
 }

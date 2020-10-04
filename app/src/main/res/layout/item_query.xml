@@ -7,9 +7,13 @@
         <variable
             name="item"
             type="com.example.stackoreader.data.Item" />
+        <variable
+            name="listener"
+            type="com.example.stackoreader.view.QueryClickListener"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:tag="@{item.questionId}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
