@@ -19,9 +19,6 @@
         android:name="com.example.stackoreader.view.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
-        <action
-            android:id="@+id/action_detailsFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
         <argument
             android:name="item"
             app:argType="com.example.stackoreader.data.Item" />
