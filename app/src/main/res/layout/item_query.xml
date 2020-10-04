@@ -19,6 +19,7 @@
             android:layout_height="100dp"
             android:layout_marginStart="4dp"
             android:background="@drawable/ic_launcher_background"
+            android:imageUrl="@{item.owner.profileImage}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_label" />
 
