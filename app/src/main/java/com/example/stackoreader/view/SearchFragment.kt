@@ -9,21 +9,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stackoreader.R
-import com.example.stackoreader.databinding.SearchFragmentBinding
+import com.example.stackoreader.databinding.FragmentSearchBinding
 import com.example.stackoreader.viewmodel.SearchViewModel
 import timber.log.Timber
 
 class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
-    private lateinit var binding: SearchFragmentBinding
+    private lateinit var binding: FragmentSearchBinding
     private lateinit var resultListAdapter: ResultListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = SearchFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
