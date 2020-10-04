@@ -29,6 +29,11 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         Timber.d("Fragment init")
+
+        binding.searchButton.setOnClickListener {
+            val query = binding.searchEdit.text.toString()
+            viewModel.search(query)
+        }
     }
 
 }
