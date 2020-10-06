@@ -18,8 +18,13 @@ class SearchViewModel : ViewModel() {
     private val disposable = CompositeDisposable()
     private val stackService = StackService()
     private val resultList = MutableLiveData<List<Item>>()
+    private val loadDataError = MutableLiveData<Boolean>()
+    private val loadInProgress = MutableLiveData<Boolean>()
+
 
     fun getResultsList(): LiveData<List<Item>> = resultList
+    fun getLoadDataError(): LiveData<Boolean> = loadDataError
+    fun getLoadInProgress(): LiveData<Boolean> = loadInProgress
 
     fun search(query: String) {
         disposable.add(
@@ -29,19 +34,19 @@ class SearchViewModel : ViewModel() {
                 .subscribeWith(object :
                     DisposableSingleObserver<SearchResult>() {
                     override fun onSuccess(result: SearchResult) {
+                        Timber.d("Success")
+                        loadDataError.postValue(false)
+                        loadInProgress.postValue(false)
                         resultList.postValue(result.items)
-//                        for (item in result.items) {
-//                            Timber.d("title: ${item.title}")
-//                        }
-
                     }
 
                     override fun onError(e: Throwable) {
                         Timber.e("error: %s", e.toString())
-                    }
+                        loadDataError.postValue(true)
+                        loadInProgress.postValue(false)
 
+                    }
                 })
         )
     }
-
 }
