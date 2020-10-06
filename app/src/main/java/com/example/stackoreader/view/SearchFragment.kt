@@ -1,18 +1,22 @@
 package com.example.stackoreader.view
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.stackoreader.R
 import com.example.stackoreader.databinding.FragmentSearchBinding
+import com.example.stackoreader.util.hideKeyboard
 import com.example.stackoreader.viewmodel.SearchViewModel
 import timber.log.Timber
+
 
 class SearchFragment : Fragment() {
 
@@ -36,6 +40,7 @@ class SearchFragment : Fragment() {
 
         binding.searchButton.setOnClickListener {
             startSearch()
+            hideKeyboard()
         }
 
         binding.resultsList.apply {
