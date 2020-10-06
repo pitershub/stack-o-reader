@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.stackoreader.R
 import com.example.stackoreader.databinding.FragmentSearchBinding
 import com.example.stackoreader.viewmodel.SearchViewModel
@@ -34,8 +35,7 @@ class SearchFragment : Fragment() {
         Timber.d("Fragment init")
 
         binding.searchButton.setOnClickListener {
-            val query = binding.searchEdit.text.toString()
-            viewModel.search(query)
+            startSearch()
         }
 
         binding.resultsList.apply {
@@ -43,12 +43,17 @@ class SearchFragment : Fragment() {
             adapter = resultListAdapter
         }
 
-        viewModel.getResultsList().observe(viewLifecycleOwner
+        viewModel.getResultsList().observe(
+            viewLifecycleOwner
         ) { list ->
             binding.loadProgress.visibility = View.GONE
             binding.loadErrorText.visibility = View.GONE
             binding.resultsList.visibility = View.VISIBLE
             resultListAdapter.updateResultsList(list)
+            binding.swipeContainer.let {
+                if (it.isRefreshing) it.isRefreshing = false
+            }
+
         }
 
         viewModel.getLoadDataError().observe(viewLifecycleOwner) {
@@ -67,6 +72,14 @@ class SearchFragment : Fragment() {
             }
         }
 
+        binding.swipeContainer.setOnRefreshListener {
+            startSearch()
+        }
+    }
+
+    private fun startSearch() {
+        val query = binding.searchEdit.text.toString()
+        if (query.isNotEmpty()) viewModel.search(query)
     }
 
 }
