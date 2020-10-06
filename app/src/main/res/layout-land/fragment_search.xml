@@ -16,10 +16,9 @@
             android:layout_margin="4dp"
             android:text="@string/search"
             android:textSize="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/search_edit"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/search_edit"
@@ -27,6 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:hint="@string/enter_query"
+            android:inputType="text"
+            android:maxLines="1"
             android:textSize="18dp"
             app:layout_constraintEnd_toStartOf="@+id/search_button"
             app:layout_constraintStart_toEndOf="@+id/search_text"
