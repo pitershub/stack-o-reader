@@ -45,8 +45,28 @@ class SearchFragment : Fragment() {
 
         viewModel.getResultsList().observe(viewLifecycleOwner
         ) { list ->
+            binding.loadProgress.visibility = View.GONE
+            binding.loadErrorText.visibility = View.GONE
+            binding.resultsList.visibility = View.VISIBLE
             resultListAdapter.updateResultsList(list)
         }
+
+        viewModel.getLoadDataError().observe(viewLifecycleOwner) {
+            if (it) {
+                binding.resultsList.visibility = View.GONE
+                binding.loadProgress.visibility = View.GONE
+                binding.loadErrorText.visibility = View.VISIBLE
+            }
+        }
+
+        viewModel.getLoadInProgress().observe(viewLifecycleOwner) {
+            if (it) {
+                binding.resultsList.visibility = View.GONE
+                binding.loadErrorText.visibility = View.GONE
+                binding.loadProgress.visibility = View.VISIBLE
+            }
+        }
+
     }
 
 }
