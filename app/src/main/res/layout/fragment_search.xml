@@ -51,7 +51,7 @@
             app:layout_constraintTop_toBottomOf="@+id/search_button" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeContainer"
+            android:id="@+id/swipe_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="4dp"
