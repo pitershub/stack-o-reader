@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="@string/search"
+            android:text="@string/search_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/search_edit"
             app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +65,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/results_list"
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="match_parent" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <TextView
