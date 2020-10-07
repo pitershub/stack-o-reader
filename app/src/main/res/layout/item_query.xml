@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.example.stackoreader.data.Item" />
+            type="com.pikejprod.stackoreader.data.Item" />
 
         <variable
             name="listener"
-            type="com.example.stackoreader.view.QueryClickListener" />
+            type="com.pikejprod.stackoreader.view.QueryClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
