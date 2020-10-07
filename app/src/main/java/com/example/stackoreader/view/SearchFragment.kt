@@ -2,6 +2,8 @@ package com.example.stackoreader.view
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,10 +61,7 @@ class SearchFragment : Fragment() {
             binding.loadErrorText.visibility = View.GONE
             binding.resultsList.visibility = View.VISIBLE
             resultListAdapter.updateResultsList(list)
-            binding.swipeContainer.let {
-                if (it.isRefreshing) it.isRefreshing = false
-            }
-
+            binding.swipeContainer.isRefreshing = false
         }
 
         viewModel.getLoadDataError().observe(viewLifecycleOwner) {
@@ -70,6 +69,7 @@ class SearchFragment : Fragment() {
                 binding.resultsList.visibility = View.GONE
                 binding.loadProgress.visibility = View.GONE
                 binding.loadErrorText.visibility = View.VISIBLE
+                binding.swipeContainer.isRefreshing = false
             }
         }
 
@@ -84,11 +84,30 @@ class SearchFragment : Fragment() {
         binding.swipeContainer.setOnRefreshListener {
             startSearch()
         }
+
+        binding.searchEdit.addTextChangedListener(
+            object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    binding.searchButton.isEnabled = binding.searchEdit.text.isNotEmpty()
+                }
+            })
     }
 
     private fun startSearch() {
         val query = binding.searchEdit.text.toString()
         if (query.isNotEmpty()) viewModel.search(query)
+        else binding.swipeContainer.isRefreshing = false
     }
 
 }
