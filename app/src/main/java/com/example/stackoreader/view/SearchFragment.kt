@@ -1,28 +1,33 @@
 package com.example.stackoreader.view
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.stackoreader.StackOReaderApp
 import com.example.stackoreader.databinding.FragmentSearchBinding
 import com.example.stackoreader.util.hideKeyboard
 import com.example.stackoreader.viewmodel.SearchViewModel
 import timber.log.Timber
+import javax.inject.Inject
 
 
 class SearchFragment : Fragment() {
 
-    private lateinit var viewModel: SearchViewModel
     private lateinit var binding: FragmentSearchBinding
     private lateinit var resultListAdapter: ResultListAdapter
+
+    @Inject
+    lateinit var viewModel: SearchViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity?.application as StackOReaderApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +39,6 @@ class SearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         resultListAdapter = ResultListAdapter(arrayListOf())
         Timber.d("Fragment init")
 

@@ -1,9 +1,7 @@
 package com.example.stackoreader.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.stackoreader.data.Item
 import com.example.stackoreader.data.SearchResult
 import com.example.stackoreader.model.StackService
@@ -12,15 +10,17 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SearchViewModel : ViewModel() {
-
+@Singleton
+class SearchViewModel @Inject constructor(
+    private val stackService: StackService
+) {
     private val disposable = CompositeDisposable()
-    private val stackService = StackService()
     private val resultList = MutableLiveData<List<Item>>()
     private val loadDataError = MutableLiveData<Boolean>()
     private val loadInProgress = MutableLiveData<Boolean>()
-
 
     fun getResultsList(): LiveData<List<Item>> = resultList
     fun getLoadDataError(): LiveData<Boolean> = loadDataError
@@ -44,7 +44,6 @@ class SearchViewModel : ViewModel() {
                         Timber.e("error: %s", e.toString())
                         loadDataError.postValue(true)
                         loadInProgress.postValue(false)
-
                     }
                 })
         )

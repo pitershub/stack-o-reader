@@ -6,12 +6,14 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.stackoreader.R
+import com.example.stackoreader.StackOReaderApp
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as StackOReaderApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
