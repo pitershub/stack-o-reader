@@ -11,7 +11,9 @@ import javax.inject.Singleton
 @Component(
     modules = [
         StackApiModule::class,
-        StackServiceModule::class
+        StackServiceModule::class,
+        StackOStateModule::class,
+        SearchViewModelModule::class
     ])
 interface AppComponent {
 

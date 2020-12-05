@@ -8,12 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.pikejprod.stackoreader.StackOReaderApp
 import com.pikejprod.stackoreader.databinding.FragmentSearchBinding
 import com.pikejprod.stackoreader.util.hideKeyboard
 import com.pikejprod.stackoreader.viewmodel.SearchViewModel
+import com.pikejprod.stackoreader.viewmodel.StackOAction
+import com.pikejprod.stackoreader.viewmodel.StackOState
+import com.ww.roxie.BaseViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,32 +58,6 @@ class SearchFragment : Fragment() {
             adapter = resultListAdapter
         }
 
-        viewModel.getResultsList().observe(
-            viewLifecycleOwner
-        ) { list ->
-            binding.loadProgress.visibility = View.GONE
-            binding.loadErrorText.visibility = View.GONE
-            binding.resultsList.visibility = View.VISIBLE
-            resultListAdapter.updateResultsList(list)
-            binding.swipeContainer.isRefreshing = false
-        }
-
-        viewModel.getLoadDataError().observe(viewLifecycleOwner) {
-            if (it) {
-                binding.resultsList.visibility = View.GONE
-                binding.loadProgress.visibility = View.GONE
-                binding.loadErrorText.visibility = View.VISIBLE
-                binding.swipeContainer.isRefreshing = false
-            }
-        }
-
-        viewModel.getLoadInProgress().observe(viewLifecycleOwner) {
-            if (it) {
-                binding.resultsList.visibility = View.GONE
-                binding.loadErrorText.visibility = View.GONE
-                binding.loadProgress.visibility = View.VISIBLE
-            }
-        }
 
         binding.swipeContainer.setOnRefreshListener {
             startSearch()
@@ -102,11 +80,27 @@ class SearchFragment : Fragment() {
                     binding.searchButton.isEnabled = binding.searchEdit.text.isNotEmpty()
                 }
             })
+
+
+        viewModel.observableState.observe(this, Observer {state ->
+            state?.let {
+                renderState(it)
+            }
+        })
+    }
+
+    private fun renderState(state: StackOState) {
+            binding.loadProgress.visibility = if (state.activity) View.VISIBLE else View.GONE
+            binding.loadErrorText.visibility = if (state.displayError) View.VISIBLE else View.GONE
+            binding.resultsList.visibility = if (!state.activity && !state.displayError) View.VISIBLE else View.GONE
+            resultListAdapter.updateResultsList(state.resultList)
+            binding.swipeContainer.isRefreshing = false
+
     }
 
     private fun startSearch() {
         val query = binding.searchEdit.text.toString()
-        if (query.isNotEmpty()) viewModel.search(query)
+        if (query.isNotEmpty()) viewModel.dispatch(StackOAction.SearchButtonClicked(query))
         else binding.swipeContainer.isRefreshing = false
     }
 
